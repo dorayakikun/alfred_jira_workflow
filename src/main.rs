@@ -5,6 +5,8 @@ extern crate serde_json;
 extern crate toml;
 
 mod config;
+mod jira_api;
+mod jira_request;
 mod workflow;
 
 use clap::{App, SubCommand};
