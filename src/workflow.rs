@@ -3,13 +3,26 @@ use config::Config;
 use std::env;
 use std::fs::File;
 use std::io::Read;
+use std::process;
 
 pub struct Workflow {
     config: Config,
 }
 
+impl Workflow {
+    pub fn config(&self) -> &Config {
+        &self.config
+    }
+}
+
 pub fn new() -> Workflow {
-    let config = load_config().unwrap();
+    let config = match load_config() {
+        Ok(c) => c,
+        Err(e) => {
+            println!("cause: {}", e);
+            process::exit(1);
+        }
+    };
     Workflow {
         config: config,
     }
@@ -23,8 +36,6 @@ fn load_config() -> Result<Config, String> {
     let mut toml_string = String::new();
     file.read_to_string(&mut toml_string).unwrap();
 
-    match toml::from_str(&toml_string) {
-        Ok(c) => c,
-        Err(_) => Err("Failed load config file".to_string())
-    }
+    toml::from_str::<Config>(&toml_string)
+        .map_err(|e| e.to_string())
 }
