@@ -1,5 +1,3 @@
-
-
 #[derive(Deserialize)]
 pub struct Config {
     hostname: String,
