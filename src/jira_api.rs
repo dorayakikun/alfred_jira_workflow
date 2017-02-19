@@ -1,11 +1,12 @@
+use config::Config;
 use hyper::client::{Body};
-use hyper::header::{Authorization,Basic,Headers,Header};
+use hyper::header::{Authorization, Basic, Headers, Header};
 use hyper::method::*;
 use jira_request::*;
 
 struct SearchIssue {
+    config: Config,
     base_url: String,
-    path: String,
     keyword: String,
 }
 
@@ -14,7 +15,7 @@ impl JIRARequest for SearchIssue {
         self.base_url.clone()
     }
     fn path(&self) -> String {
-        let path = format!("{}/{}", &self.path, &self.keyword);
+        let path = format!("/rest/api/2/search?jql={}~&maxResults=15", &self.keyword);
         path
     }
 
@@ -24,8 +25,9 @@ impl JIRARequest for SearchIssue {
 
     fn headers(&self) -> Option<Headers> {
         let mut headers = Headers::new();
-        // TODO configからユーザ名とる
-        headers.set(Authorization(Basic{username: "".to_string(), password: Some("".to_string())}));
+        headers.set(Authorization(Basic {
+            username: self.config.username().to_string(),
+            password: Some(self.config.password().to_string()) }));
         Some(headers)
     }
 
@@ -36,19 +38,24 @@ impl JIRARequest for SearchIssue {
 
 #[cfg(test)]
 mod test {
+    use config::Config;
     use hyper::method::Method;
     use super::*;
 
     #[test]
     fn it_works() {
         let search_issue = SearchIssue {
-            base_url: "http://example.com".to_string(),
-            path: "/test".to_string(),
+            config: Config {
+                hostname: "http://localhost".to_string(),
+                username: "test".to_string(),
+                password: "pass".to_string(),
+            },
+            base_url: "http://localhost".to_string(),
             keyword: "keyword".to_string(),
         };
 
-        assert_eq!("http://example.com", &search_issue.base_url());
-        assert_eq!("/test/keyword", &search_issue.path());
+        assert_eq!("http://localhost", &search_issue.base_url());
+        assert_eq!("/rest/api/2/search?jql=keyword~&maxResults=15", &search_issue.path());
         assert_eq!(Method::Get, search_issue.method());
     }
 }
