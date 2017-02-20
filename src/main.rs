@@ -9,6 +9,7 @@ mod config;
 mod jira_api;
 mod jira_client;
 mod jira_request;
+mod search_command;
 mod workflow;
 
 use clap::{App, SubCommand};
