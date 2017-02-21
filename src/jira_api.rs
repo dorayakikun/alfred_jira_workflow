@@ -4,16 +4,17 @@ use hyper::header::{Authorization, Basic, Headers, Header};
 use hyper::method::*;
 use jira_request::*;
 
-struct SearchIssue {
-    config: Config,
-    base_url: String,
-    keyword: String,
+pub struct SearchIssue {
+    pub config: Config,
+    pub keyword: String,
 }
 
 impl JIRARequest for SearchIssue {
     fn base_url(&self) -> String {
-        self.base_url.clone()
+        let base_url = format!("{}", self.config.hostname());
+        base_url
     }
+
     fn path(&self) -> String {
         let path = format!("/rest/api/2/search?jql={}~&maxResults=15", &self.keyword);
         path
@@ -50,7 +51,6 @@ mod test {
                 username: "test".to_string(),
                 password: "pass".to_string(),
             },
-            base_url: "http://localhost".to_string(),
             keyword: "keyword".to_string(),
         };
 

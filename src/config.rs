@@ -1,4 +1,4 @@
-#[derive(Deserialize)]
+#[derive(Clone, Deserialize)]
 pub struct Config {
     pub hostname: String,
     pub username: String,
