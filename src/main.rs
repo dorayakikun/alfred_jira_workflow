@@ -6,6 +6,7 @@ extern crate serde_json;
 extern crate toml;
 
 mod config;
+mod issue;
 mod jira_api;
 mod jira_client;
 mod jira_request;

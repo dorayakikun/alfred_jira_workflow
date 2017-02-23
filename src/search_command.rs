@@ -1,8 +1,10 @@
 extern crate alfred;
 
 use config::Config;
+use issue::Issue;
 use jira_api::SearchIssue;
 use jira_client;
+
 struct SearchCommand {
     pub config: Config,
 }
@@ -13,7 +15,7 @@ impl SearchCommand {
             config: self.config.clone(),
             keyword: keyword.to_string(),
         };
-        let _ = jira_client::send(jira_search).map_err(|e| e.to_string())?;
+        let issues = jira_client::send::<SearchIssue, Issue>(jira_search).map_err(|e| e.to_string())?;
         Ok("".to_string())
     }
 }
