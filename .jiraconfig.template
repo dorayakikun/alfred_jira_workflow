@@ -1,0 +1,3 @@
+hostname = "enter your hostname... e.g. https://my.jira.com"
+username = "enter your JIRA username"
+password = "enter your JIRA password"
