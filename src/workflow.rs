@@ -1,6 +1,7 @@
 extern crate toml;
 
 use config::Config;
+use search_command::SearchCommand;
 use std::env;
 use std::fs::File;
 use std::io::Read;
@@ -8,11 +9,15 @@ use std::process;
 
 pub struct Workflow {
     config: Config,
+    search: SearchCommand,
 }
 
 impl Workflow {
     pub fn config(&self) -> &Config {
         &self.config
+    }
+    pub fn seach(&self) -> &SearchCommand {
+        &self.search
     }
 }
 
@@ -25,7 +30,8 @@ pub fn new() -> Workflow {
         }
     };
     Workflow {
-        config: config,
+        config: config.clone(),
+        search: SearchCommand { config: config.clone() }
     }
 }
 

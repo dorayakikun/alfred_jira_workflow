@@ -17,11 +17,23 @@ mod workflow;
 use clap::{App, SubCommand};
 
 fn main() {
-    let _ = workflow::new();
+    let workflow = workflow::new();
     let matches = App::new("jira")
         .version(env!("CARGO_PKG_VERSION"))
         .about("Alfred JIRA Workflow.")
         .subcommand(SubCommand::with_name("Search")
             .about("Search JIRA issues"))
         .get_matches();
+
+    if let Some(_) = matches.subcommand_matches("search") {
+        match workflow.seach().run(&"".to_string()) {
+            Ok(_) => (),
+            Err(e) => {
+                println!("{}", e.to_string());
+                std::process::exit(1);
+            }
+        }
+        std::process::exit(0);
+    };
+    std::process::exit(0);
 }
