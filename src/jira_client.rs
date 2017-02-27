@@ -8,7 +8,7 @@ use hyper::status::StatusCode;
 use jira_request::*;
 use std::io::Read;
 
-pub fn send<R: JIRARequest, T: serde::de::Deserialize>(request: R) -> Result<Vec<T>, String> {
+pub fn send<R: JIRARequest, T: serde::de::Deserialize>(request: R) -> Result<T, String> {
     let client = Client::new();
     let url = format!("{}{}", &request.base_url(), &request.path());
 
@@ -21,7 +21,7 @@ pub fn send<R: JIRARequest, T: serde::de::Deserialize>(request: R) -> Result<Vec
     let mut body = String::new();
     res.read_to_string(&mut body).map_err(|e| e.to_string())?;
     match res.status {
-        StatusCode::Ok => serde_json::from_str::<Vec<T>>(&body).map_err(|e| e.to_string()),
+        StatusCode::Ok => serde_json::from_str::<T>(&body).map_err(|e| e.to_string()),
         _ => Err(body)
     }
 }
