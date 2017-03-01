@@ -14,23 +14,27 @@ mod search_command;
 mod search_response;
 mod workflow;
 
-use clap::{App, SubCommand};
+use clap::{Arg, App, SubCommand};
 
 fn main() {
     let workflow = workflow::new();
     let matches = App::new("jira")
         .version(env!("CARGO_PKG_VERSION"))
         .about("Alfred JIRA Workflow.")
-        .subcommand(SubCommand::with_name("Search")
-            .about("Search JIRA issues"))
+        .subcommand(SubCommand::with_name("search")
+            .about("Search JIRA issues")
+            .arg(Arg::with_name("keyword")
+                .required(true)))
         .get_matches();
 
-    if let Some(_) = matches.subcommand_matches("search") {
-        match workflow.seach().run(&"".to_string()) {
-            Ok(_) => (),
-            Err(e) => {
-                println!("{}", e.to_string());
-                std::process::exit(1);
+    if let Some(matches) = matches.subcommand_matches("search") {
+        if let Some(keyword) = matches.value_of("keyword") {
+            match workflow.search().run(&keyword.to_string()) {
+                Ok(_) => (),
+                Err(e) => {
+                    println!("{}", e.to_string());
+                    std::process::exit(1);
+                }
             }
         }
         std::process::exit(0);
