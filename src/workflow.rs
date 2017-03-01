@@ -16,7 +16,7 @@ impl Workflow {
     pub fn config(&self) -> &Config {
         &self.config
     }
-    pub fn seach(&self) -> &SearchCommand {
+    pub fn search(&self) -> &SearchCommand {
         &self.search
     }
 }
