@@ -2,7 +2,7 @@ extern crate serde;
 extern crate serde_json;
 
 use hyper::Client;
-use hyper::client::{Body, Response};
+use hyper::client::{Response};
 use hyper::header::Headers;
 use hyper::status::StatusCode;
 use jira_request::*;

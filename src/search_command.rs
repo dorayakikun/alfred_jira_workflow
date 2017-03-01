@@ -4,7 +4,7 @@ use config::Config;
 use jira_api::SearchIssue;
 use jira_client;
 use search_response::SearchResponse;
-use std::io::{self, Write};
+use std::io::{self};
 
 pub struct SearchCommand {
     pub config: Config,

@@ -1,5 +1,3 @@
-use hyper::Client;
-use hyper::client::{RequestBuilder};
 use hyper::header::{Headers};
 use hyper::method::{Method};
 

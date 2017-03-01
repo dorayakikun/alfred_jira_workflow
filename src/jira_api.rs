@@ -1,6 +1,5 @@
 use config::Config;
-use hyper::client::{Body};
-use hyper::header::{Authorization, Basic, Headers, Header};
+use hyper::header::{Authorization, Basic, Headers};
 use hyper::method::*;
 use jira_request::*;
 
