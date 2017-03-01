@@ -8,14 +8,10 @@ use std::io::Read;
 use std::process;
 
 pub struct Workflow {
-    config: Config,
     search: SearchCommand,
 }
 
 impl Workflow {
-    pub fn config(&self) -> &Config {
-        &self.config
-    }
     pub fn search(&self) -> &SearchCommand {
         &self.search
     }
@@ -30,7 +26,6 @@ pub fn new() -> Workflow {
         }
     };
     Workflow {
-        config: config.clone(),
         search: SearchCommand { config: config.clone() }
     }
 }
