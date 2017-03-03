@@ -23,11 +23,11 @@ pub fn send<R: JIRARequest, T: serde::de::Deserialize>(request: R) -> Result<T, 
         .send()
         .map_err(|e| e.to_string())?;
 
-    let mut body = String::new();
-    res.read_to_string(&mut body).map_err(|e| e.to_string())?;
+    let mut body = vec![];
+    res.read_to_end(&mut body).unwrap();
 
     match res.status {
-        StatusCode::Ok => serde_json::from_str::<T>(&body).map_err(|e| e.to_string()),
-        _ => Err(body),
+        StatusCode::Ok => serde_json::from_str::<T>(&String::from_utf8_lossy(&body)).map_err(|e| e.to_string()),
+        _ => Err(String::from_utf8_lossy(&body).to_string()),
     }
 }
