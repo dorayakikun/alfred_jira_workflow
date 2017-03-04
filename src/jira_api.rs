@@ -2,6 +2,7 @@ use config::Config;
 use hyper::header::{Authorization, Basic, Headers};
 use hyper::method::*;
 use jira_request::*;
+use search_response::SearchResponse;
 
 pub struct SearchIssue {
     pub config: Config,
@@ -9,6 +10,8 @@ pub struct SearchIssue {
 }
 
 impl JIRARequest for SearchIssue {
+    type Response = SearchResponse;
+
     fn base_url(&self) -> String {
         let base_url = format!("{}", self.config.hostname());
         base_url

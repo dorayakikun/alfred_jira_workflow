@@ -16,7 +16,7 @@ impl SearchCommand {
             config: self.config.clone(),
             keyword: keyword.to_string(),
         };
-        let res = jira_client::send::<SearchIssue, SearchResponse>(jira_search).map_err(|e| e.to_string())?;
+        let res = jira_client::send::<SearchIssue>(jira_search).map_err(|e| e.to_string())?;
         Ok(self.write_alfred_items(res)?)
     }
 
