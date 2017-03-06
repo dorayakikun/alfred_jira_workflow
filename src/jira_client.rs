@@ -26,7 +26,7 @@ pub fn send<R: JIRARequest>(request: R) -> Result<R::Response, String> {
     res.read_to_end(&mut body).unwrap();
 
     match res.status {
-        StatusCode::Ok => serde_json::from_str::<R::Response>(&String::from_utf8_lossy(&body)).map_err(|e| e.to_string()),
+        StatusCode::Ok => serde_json::from_str::<R::Response>(&String::from_utf8_lossy(&body).into_owned()).map_err(|e| e.to_string()),
         _ => Err(String::from_utf8_lossy(&body).to_string()),
     }
 }
