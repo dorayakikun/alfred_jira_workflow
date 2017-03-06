@@ -18,7 +18,7 @@ impl JIRARequest for SearchIssue {
     }
 
     fn path(&self) -> String {
-        let path = format!("/rest/api/2/search?jql=text~{}&maxResults=15", &self.keyword);
+        let path = format!("/rest/api/2/search?jql=text~{}&maxResults=3", &self.keyword);
         path
     }
 
