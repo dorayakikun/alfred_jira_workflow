@@ -1,3 +1,5 @@
+use ::fields::Fields;
+
 #[derive(Deserialize)]
 pub struct Issue {
     pub expand: String,
@@ -5,4 +7,5 @@ pub struct Issue {
     #[serde(rename = "self")]
     pub url: String,
     pub key: String,
+    pub fields: Fields,
 }
