@@ -22,7 +22,7 @@ impl SearchCommand {
 
     fn write_alfred_items(&self, base_url: &String, res: SearchResponse) -> Result<(), String> {
         let alfred_items = res.issues.into_iter()
-            .map(|issue| alfred::ItemBuilder::new(issue.fields.summary).arg(format!("{}/{}/browse", base_url, issue.key)).into_item())
+            .map(|issue| alfred::ItemBuilder::new(issue.fields.summary).arg(format!("{}/browse/{}", base_url, issue.key)).into_item())
             .collect::<Vec<alfred::Item>>();
 
         alfred::json::write_items(io::stdout(), &alfred_items).map_err(|e| e.to_string())
