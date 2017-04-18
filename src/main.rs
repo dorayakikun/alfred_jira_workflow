@@ -9,6 +9,7 @@ extern crate toml;
 mod config;
 mod fields;
 mod issue;
+mod item;
 mod jira_api;
 mod jira_client;
 mod jira_request;
