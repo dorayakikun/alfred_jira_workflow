@@ -4,7 +4,6 @@ version = "0.1.0"
 authors = ["dorayakikun <amakunai.dorayaki@gmail.com>"]
 
 [dependencies]
-alfred = "3.0"
 clap = "2.20.0"
 hyper = "0.10"
 hyper-native-tls = "0.2.2"

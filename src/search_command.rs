@@ -1,5 +1,3 @@
-extern crate alfred;
-
 use config::Config;
 use item::Item;
 use item::ItemBuilder;
