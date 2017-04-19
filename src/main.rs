@@ -6,6 +6,7 @@ extern crate serde_derive;
 extern crate serde_json;
 extern crate toml;
 
+mod alfred_result;
 mod config;
 mod fields;
 mod issue;

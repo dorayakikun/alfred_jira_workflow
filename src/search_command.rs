@@ -1,3 +1,4 @@
+use alfred_result::AlfredResult;
 use config::Config;
 use item::Item;
 use item::ItemBuilder;
@@ -32,6 +33,7 @@ impl SearchCommand {
                  })
             .collect::<Vec<Item>>();
 
-        serde_json::to_writer_pretty(&mut io::stdout(), &alfred_items).map_err(|e| e.to_string())
+        let alfred_result = AlfredResult { items: alfred_items };
+        serde_json::to_writer_pretty(&mut io::stdout(), &alfred_result).map_err(|e| e.to_string())
     }
 }
