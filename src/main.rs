@@ -9,6 +9,9 @@ extern crate hyper_native_tls;
 extern crate serde_derive;
 extern crate serde_json;
 extern crate toml;
+#[macro_use]
+extern crate log;
+extern crate env_logger;
 
 mod alfred_result;
 mod config;
@@ -28,6 +31,8 @@ mod workflow;
 use clap::{Arg, App, SubCommand};
 
 fn main() {
+    env_logger::init().unwrap();
+
     let workflow = workflow::new();
     let matches = App::new("jira")
         .version(env!("CARGO_PKG_VERSION"))
@@ -43,10 +48,10 @@ fn main() {
                 Ok(_) => (),
                 Err(ref e) => {
                     for e in e.iter().skip(1) {
-                        println!("caused by: {}", e);
+                        error!("caused by: {}", e);
                     }
                     if let Some(backtrace) = e.backtrace() {
-                        println!("backtrace: {:?}", backtrace);
+                        error!("backtrace: {:?}", backtrace);
                     }
                     std::process::exit(1);
                 }

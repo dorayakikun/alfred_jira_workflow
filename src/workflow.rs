@@ -22,7 +22,7 @@ pub fn new() -> Workflow {
     let config = match load_config() {
         Ok(c) => c,
         Err(e) => {
-            println!("{}", e);
+            error!("{}", e);
             process::exit(1);
         }
     };
