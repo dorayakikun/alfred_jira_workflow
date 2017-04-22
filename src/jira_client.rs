@@ -2,8 +2,8 @@ extern crate serde_json;
 
 use errors::*;
 use jira_request::*;
-use hyper::header::Headers;
 use reqwest;
+use reqwest::header::Headers;
 use reqwest::Response;
 use reqwest::StatusCode;
 use std::io::Read;
