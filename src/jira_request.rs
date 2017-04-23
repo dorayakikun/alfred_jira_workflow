@@ -1,7 +1,6 @@
-extern crate serde;
-
-use hyper::header::{Headers};
-use hyper::method::{Method};
+use reqwest::header::Headers;
+use reqwest::Method;
+use serde;
 
 pub trait JIRARequest {
     type Response: serde::de::Deserialize;

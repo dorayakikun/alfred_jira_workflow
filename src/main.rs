@@ -3,8 +3,8 @@
 extern crate clap;
 #[macro_use]
 extern crate error_chain;
-extern crate hyper;
-extern crate hyper_native_tls;
+extern crate reqwest;
+extern crate serde;
 #[macro_use]
 extern crate serde_derive;
 extern crate serde_json;
