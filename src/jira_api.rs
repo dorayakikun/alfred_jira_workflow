@@ -18,7 +18,8 @@ impl JIRARequest for SearchIssue {
     }
 
     fn path(&self) -> String {
-        let path = format!("/rest/api/2/search?jql=text~{}&maxResults=3", &self.keyword);
+        let path = format!("/rest/api/2/search?jql=text~{}&maxResults=50",
+                           &self.keyword);
         path
     }
 
@@ -58,7 +59,7 @@ mod test {
         };
 
         assert_eq!("http://localhost", &search_issue.base_url());
-        assert_eq!("/rest/api/2/search?jql=text~keyword&maxResults=15",
+        assert_eq!("/rest/api/2/search?jql=text~keyword&maxResults=50",
                    &search_issue.path());
         assert_eq!(Method::Get, search_issue.method());
     }
