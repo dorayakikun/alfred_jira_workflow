@@ -1,6 +1,7 @@
 extern crate toml;
 
 use config::Config;
+use errors::*;
 use search_command::SearchCommand;
 use std::env;
 use std::fs::File;
@@ -21,20 +22,20 @@ pub fn new() -> Workflow {
     let config = match load_config() {
         Ok(c) => c,
         Err(e) => {
-            println!("{}", e);
+            error!("{}", e);
             process::exit(1);
         }
     };
     Workflow { search: SearchCommand { config: config } }
 }
 
-fn load_config() -> Result<Config, String> {
+fn load_config() -> Result<Config> {
     let mut config_file = env::home_dir().unwrap();
     config_file.push(".jiraconfig");
-    let mut file = File::open(&config_file).map_err(|_| "Missing .jiraconfig".to_string())?;
+    let mut file = File::open(&config_file).chain_err(|| "Missing .jiraconfig".to_string())?;
 
     let mut toml_string = String::new();
     file.read_to_string(&mut toml_string).unwrap();
 
-    toml::from_str::<Config>(&toml_string).map_err(|e| format!("Invalid format {}", e))
+    toml::from_str::<Config>(&toml_string).chain_err(|| "Invalid format {}".to_string())
 }

@@ -1,6 +1,6 @@
 use config::Config;
-use hyper::header::{Authorization, Basic, Headers};
-use hyper::method::*;
+use reqwest::header::{Authorization, Basic, Headers};
+use reqwest::Method;
 use jira_request::*;
 use search_response::SearchResponse;
 
@@ -18,7 +18,8 @@ impl JIRARequest for SearchIssue {
     }
 
     fn path(&self) -> String {
-        let path = format!("/rest/api/2/search?jql=text~{}&maxResults=3", &self.keyword);
+        let path = format!("/rest/api/2/search?jql=text~{}&maxResults=50",
+                           &self.keyword);
         path
     }
 
@@ -29,8 +30,9 @@ impl JIRARequest for SearchIssue {
     fn headers(&self) -> Option<Headers> {
         let mut headers = Headers::new();
         headers.set(Authorization(Basic {
-            username: self.config.username().to_string(),
-            password: Some(self.config.password().to_string()) }));
+                                      username: self.config.username().to_string(),
+                                      password: Some(self.config.password().to_string()),
+                                  }));
         Some(headers)
     }
 
@@ -42,7 +44,7 @@ impl JIRARequest for SearchIssue {
 #[cfg(test)]
 mod test {
     use config::Config;
-    use hyper::method::Method;
+    use reqwest::Method;
     use super::*;
 
     #[test]
@@ -57,7 +59,8 @@ mod test {
         };
 
         assert_eq!("http://localhost", &search_issue.base_url());
-        assert_eq!("/rest/api/2/search?jql=text~keyword&maxResults=15", &search_issue.path());
+        assert_eq!("/rest/api/2/search?jql=text~keyword&maxResults=50",
+                   &search_issue.path());
         assert_eq!(Method::Get, search_issue.method());
     }
 }
