@@ -44,7 +44,7 @@ impl JIRARequest for SearchIssue {
 #[cfg(test)]
 mod test {
     use config::Config;
-    use hyper::method::Method;
+    use reqwest::Method;
     use super::*;
 
     #[test]
