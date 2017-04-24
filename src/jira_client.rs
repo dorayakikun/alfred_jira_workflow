@@ -22,8 +22,6 @@ pub fn send<R: JIRARequest>(request: R) -> Result<R::Response> {
     info!("Status: {}", res.status());
     info!("Headers:\n{}", res.headers());
 
-    ::std::io::copy(&mut res, &mut ::std::io::stdout()).unwrap();
-
     let mut body = vec![];
     res.read_to_end(&mut body).unwrap();
 
