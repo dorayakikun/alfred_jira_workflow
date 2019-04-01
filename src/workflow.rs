@@ -3,7 +3,6 @@ extern crate toml;
 use config::Config;
 use errors::*;
 use search_command::SearchCommand;
-use std::env;
 use std::fs::File;
 use std::io::Read;
 use std::process;
@@ -26,11 +25,13 @@ pub fn new() -> Workflow {
             process::exit(1);
         }
     };
-    Workflow { search: SearchCommand { config: config } }
+    Workflow {
+        search: SearchCommand { config },
+    }
 }
 
 fn load_config() -> Result<Config> {
-    let mut config_file = env::home_dir().unwrap();
+    let mut config_file = dirs::home_dir().unwrap();
     config_file.push(".jiraconfig");
     let mut file = File::open(&config_file).chain_err(|| "Missing .jiraconfig".to_string())?;
 

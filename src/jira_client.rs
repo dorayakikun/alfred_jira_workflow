@@ -13,9 +13,10 @@ pub fn send<R: JIRARequest>(request: R) -> Result<R::Response> {
 
     let url = format!("{}{}", &request.base_url(), &request.path());
 
-    let mut res: Response = client.request(request.method(), &url)
-        .headers(request.headers().unwrap_or(Headers::new()))
-        .json(&request.body().unwrap_or("".to_string()))
+    let mut res: Response = client
+        .request(request.method(), &url)
+        .headers(request.headers().unwrap_or_else(Headers::new))
+        .json(&request.body().unwrap_or_else(|| "".to_string()))
         .send()
         .chain_err(|| "Failed to request JIRA")?;
 
@@ -25,8 +26,8 @@ pub fn send<R: JIRARequest>(request: R) -> Result<R::Response> {
     let mut body = vec![];
     res.read_to_end(&mut body).unwrap();
 
-    match res.status() {
-        &StatusCode::Ok => {
+    match *res.status() {
+        StatusCode::Ok => {
             serde_json::from_str::<R::Response>(&String::from_utf8_lossy(&body).into_owned())
                 .chain_err(|| "Failed to deserialize to the struct")
         }

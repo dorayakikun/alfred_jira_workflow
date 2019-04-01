@@ -16,7 +16,7 @@ extern crate env_logger;
 mod alfred_result;
 mod config;
 mod errors {
-    error_chain!{}
+    error_chain! {}
 }
 mod fields;
 mod issue;
@@ -28,7 +28,7 @@ mod search_command;
 mod search_response;
 mod workflow;
 
-use clap::{Arg, App, SubCommand};
+use clap::{App, Arg, SubCommand};
 
 fn main() {
     env_logger::init().unwrap();
@@ -37,9 +37,11 @@ fn main() {
     let matches = App::new("jira")
         .version(env!("CARGO_PKG_VERSION"))
         .about("Alfred JIRA Workflow.")
-        .subcommand(SubCommand::with_name("search")
-                        .about("Search JIRA issues")
-                        .arg(Arg::with_name("keyword").required(true)))
+        .subcommand(
+            SubCommand::with_name("search")
+                .about("Search JIRA issues")
+                .arg(Arg::with_name("keyword").required(true)),
+        )
         .get_matches();
 
     if let Some(matches) = matches.subcommand_matches("search") {
