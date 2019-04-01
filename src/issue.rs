@@ -1,4 +1,4 @@
-use ::fields::Fields;
+use fields::Fields;
 
 #[derive(Deserialize)]
 pub struct Issue {
