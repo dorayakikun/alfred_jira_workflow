@@ -1,6 +1,7 @@
+use base64::encode;
 use config::Config;
 use jira_request::*;
-use reqwest::header::{Authorization, Basic, Headers};
+use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION, CONTENT_TYPE};
 use reqwest::Method;
 use search_response::SearchResponse;
 
@@ -25,16 +26,21 @@ impl JIRARequest for SearchIssue {
     }
 
     fn method(&self) -> Method {
-        Method::Get
+        Method::GET
     }
 
-    fn headers(&self) -> Option<Headers> {
-        let mut headers = Headers::new();
-        headers.set(Authorization(Basic {
-            username: self.config.username().to_string(),
-            password: Some(self.config.password().to_string()),
-        }));
-        Some(headers)
+    fn headers(&self) -> Option<HeaderMap> {
+        let mut header_map = HeaderMap::new();
+
+        header_map.insert(
+            CONTENT_TYPE,
+            HeaderValue::from_static("application/x-www-form-urlencoded"),
+        );
+        let auth = format!("{}:{}", self.config.username(), self.config.password());
+        let header_value = format!("Basic {}", encode(&auth));
+        header_map.insert(AUTHORIZATION, HeaderValue::from_str(&header_value).unwrap()); // FIXME
+
+        Some(header_map)
     }
 
     fn body(&self) -> Option<String> {
@@ -64,6 +70,6 @@ mod test {
             "/rest/api/2/search?jql=text~keyword&maxResults=50",
             &search_issue.path()
         );
-        assert_eq!(Method::Get, search_issue.method());
+        assert_eq!(Method::GET, search_issue.method());
     }
 }

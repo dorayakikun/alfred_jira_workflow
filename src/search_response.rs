@@ -1,6 +1,6 @@
 use issue::Issue;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct SearchResponse {
     #[serde(rename = "startAt")]
     pub start_at: i64,

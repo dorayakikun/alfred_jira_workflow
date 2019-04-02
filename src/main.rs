@@ -1,5 +1,6 @@
 #![recursion_limit = "1024"]
 
+extern crate base64;
 extern crate clap;
 #[macro_use]
 extern crate error_chain;
@@ -31,7 +32,7 @@ mod workflow;
 use clap::{App, Arg, SubCommand};
 
 fn main() {
-    env_logger::init().unwrap();
+    env_logger::init();
 
     let workflow = workflow::new();
     let matches = App::new("jira")

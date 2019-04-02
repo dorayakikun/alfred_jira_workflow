@@ -1,13 +1,13 @@
-use reqwest::header::Headers;
+use reqwest::header::HeaderMap;
 use reqwest::Method;
-use serde;
+use serde::de::DeserializeOwned;
 
 pub trait JIRARequest {
-    type Response: serde::de::Deserialize;
+    type Response: DeserializeOwned;
 
     fn base_url(&self) -> String;
     fn path(&self) -> String;
     fn method(&self) -> Method;
-    fn headers(&self) -> Option<Headers>;
+    fn headers(&self) -> Option<HeaderMap>;
     fn body(&self) -> Option<String>;
 }
