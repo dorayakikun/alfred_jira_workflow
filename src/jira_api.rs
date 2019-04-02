@@ -1,5 +1,5 @@
-use config::Config;
 use base64::encode;
+use config::Config;
 use jira_request::*;
 use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION, CONTENT_TYPE};
 use reqwest::Method;
@@ -32,10 +32,13 @@ impl JIRARequest for SearchIssue {
     fn headers(&self) -> Option<HeaderMap> {
         let mut header_map = HeaderMap::new();
 
-        header_map.insert(CONTENT_TYPE, HeaderValue::from_static("application/x-www-form-urlencoded"));
+        header_map.insert(
+            CONTENT_TYPE,
+            HeaderValue::from_static("application/x-www-form-urlencoded"),
+        );
         let auth = format!("{}:{}", self.config.username(), self.config.password());
         let header_value = format!("Basic {}", encode(&auth));
-        header_map.insert(AUTHORIZATION, HeaderValue::from_str(&header_value).unwrap());// FIXME
+        header_map.insert(AUTHORIZATION, HeaderValue::from_str(&header_value).unwrap()); // FIXME
 
         Some(header_map)
     }
