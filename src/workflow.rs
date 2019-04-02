@@ -25,6 +25,7 @@ pub fn new() -> Workflow {
             process::exit(1);
         }
     };
+    dbg!(&config);
     Workflow {
         search: SearchCommand { config },
     }

@@ -1,9 +1,9 @@
 use reqwest::header::HeaderMap;
 use reqwest::Method;
-use search_response::SearchResponse;
+use serde::de::DeserializeOwned;
 
 pub trait JIRARequest {
-    type Response: Deserialize<'de>;
+    type Response: DeserializeOwned;
 
     fn base_url(&self) -> String;
     fn path(&self) -> String;
