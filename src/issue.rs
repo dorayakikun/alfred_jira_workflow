@@ -1,6 +1,7 @@
 use fields::Fields;
+use serde_derive::{Deserialize, Serialize};
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct Issue {
     pub expand: String,
     pub id: String,

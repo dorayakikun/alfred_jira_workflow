@@ -1,6 +1,7 @@
 use issue::Issue;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct SearchResponse {
     #[serde(rename = "startAt")]
     pub start_at: i64,
